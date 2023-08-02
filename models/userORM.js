@@ -1,15 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const data = require('../config/data');
 
-const sequelize = new Sequelize({
-  host: "b6u2n4lxomwtivnohur7-mysql.services.clever-cloud.com",
-  username: "u2vmfqukfp1vbi5j",
-  password: "hCuIIlkokzvsHpMSQ8pJ",
-  database: "b6u2n4lxomwtivnohur7",
-  dialect: "mysql",
-  define: {
-    timestamps: false,
-  },
-});
+const sequelize = new Sequelize(data);
 
 const UserORM = sequelize.define("users", {
   id: {
