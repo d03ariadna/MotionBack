@@ -3,24 +3,29 @@ const data = require("../config/data");
 
 const sequelize = new Sequelize(data);
 
-const UserORM = sequelize.define("users", {
+const TaskORM = sequelize.define("tasks", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    notnull: true,
   },
   name: {
     type: DataTypes.TEXT,
+    notnull: true,
   },
-  email: {
+  description: {
     type: DataTypes.TEXT,
+    notnull: true,
   },
-  password: {
-    type: DataTypes.TEXT,
+  date: {
+    type: DataTypes.DATEONLY,
+    notnull: true,
   },
-  avatar: {
+  status: {
     type: DataTypes.TEXT,
+    notnull: true,
   },
 });
 
-module.exports = UserORM;
+module.exports = TaskORM;
