@@ -28,6 +28,12 @@ router.post("/login", UsersController.login);
 
 router.get("/tasks", TasksController.getAllTasks);
 
+router.post("/tasks", validationRulesTasks, TasksController.newTask);
+
 router.get("/tasks/:id", TasksController.getTask);
+
+router.put("/tasks/:id", TasksController.updateTask);
+
+router.delete("/tasks/:id", TasksController.deleteTask);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const TaskORM = require("../models/taskORM");
 
-const validationRules = [
+const validationRulesTasks = [
   check("name")
     .notEmpty()
     .withMessage("Task name is required")
@@ -37,6 +37,8 @@ class TasksController {
     if (!errors.isEmpty()) {
       res.send(errors.errors[0].msg);
     } else {
+      const newTask = req.body;
+
       let results = TaskORM.create({
         name: newTask.name,
         description: newTask.description,
@@ -89,11 +91,11 @@ class TasksController {
       result = await task.destroy();
     }
 
-    res.status(200).send("OK");
+    res.status(200).send("Task deleted");
   }
 }
 
 module.exports = {
-  validationRules,
+  validationRulesTasks,
   TasksController,
 };
