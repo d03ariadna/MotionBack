@@ -17,6 +17,9 @@ const UpORM = sequelize.define("user_projects", {
     type: DataTypes.INTEGER,
     foreignKey: true,
   },
+  type: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 module.exports = UpORM;

@@ -19,7 +19,24 @@ class UpController {
     }
   }
 
-  static async newRelation(req, res) {
+  static async getMembers(req, res) {
+    let id = req.params.id;
+
+    let results = await UpORM.sequelize.query(
+      "select * from user_projects where idPro = ?;",
+      {
+        replacements: [id],
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    if (results) {
+      res.json(results);
+      console.log(res);
+    }
+  }
+
+  static async newRelationAdmin(req, res) {
     let id = req.params.id;
 
     const newRelation = req.body;
@@ -27,6 +44,26 @@ class UpController {
     let results = UpORM.create({
       idUser: id,
       idPro: newRelation.idPro,
+      type: 1,
+    });
+
+    (await results).save();
+
+    if (results) {
+      res.send("Relation created");
+    } else {
+      res.send("Relation couldn't be created");
+    }
+  }
+  static async newRelationInvited(req, res) {
+    let id = req.params.id;
+
+    const newRelation = req.body;
+
+    let results = UpORM.create({
+      idUser: id,
+      idPro: newRelation.idPro,
+      type: 2,
     });
 
     (await results).save();

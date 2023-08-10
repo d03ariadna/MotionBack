@@ -8,7 +8,6 @@ const validationRulesProjects = [
     .isLength({ min: 1, max: 100 })
     .withMessage("Task name must be between 1 and 100 characters"),
   check("description").notEmpty().withMessage("Description is required"),
-  check("color").notEmpty().withMessage("Color is required"),
 ];
 
 class ProjectsController {

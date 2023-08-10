@@ -75,6 +75,10 @@ router.delete("/projects/:id/notes/:noteid", NotesController.deleteNote);
 
 router.get("/user/:id/projects", UpController.getAllRelations);
 
-router.post("/user/:id/projects", UpController.newRelation);
+router.post("/useradmin/:id/projects", UpController.newRelationAdmin);
+
+router.post("/userinvited/:id/projects", UpController.newRelationInvited);
+
+router.get("/projects/:id/members", UpController.getMembers);
 
 module.exports = router;
