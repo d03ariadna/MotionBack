@@ -1,5 +1,6 @@
 const { check, validationResult } = require("express-validator");
 const TaskORM = require("../models/taskORM");
+const { QueryTypes } = require("sequelize");
 
 const validationRulesTasks = [
   check("name")
@@ -49,9 +50,9 @@ class TasksController {
       (await results).save();
 
       if (results) {
-        res.send("Task created");
+        res.send("OK");
       } else {
-        res.send("Task couldn't be created");
+        res.send("NOT OK");
       }
     }
   }
@@ -66,7 +67,7 @@ class TasksController {
       const newTask = req.body;
       const taskToUpdate = await TaskORM.findByPk(id);
 
-      let result = await taskToUpdate.update({
+      let result = taskToUpdate.update({
         name: newTask.name,
         description: newTask.description,
         date: newTask.date,
@@ -74,7 +75,7 @@ class TasksController {
       });
 
       if (result) {
-        res.redirect("/tasks");
+        res.send("OK");
       } else {
         res.send("Task couldn't be modified");
       }
@@ -91,7 +92,11 @@ class TasksController {
       result = await task.destroy();
     }
 
-    res.status(200).send("Task deleted");
+    if (result) {
+      res.send("OK");
+    } else {
+      res.send("Task couldn't be deleted");
+    }
   }
 }
 
