@@ -45,19 +45,17 @@ router.put("/:id/tasks/:idTask", TasksController.updateTask);
 
 router.delete("/:id/tasks/:idTask", TasksController.deleteTask);
 
-router.get("/projects", ProjectsController.getAllProjects);
+router.get("/:id/projects", ProjectsController.getAllProjects);
 
 router.post(
-  "/projects",
+  "/:id/projects",
   validationRulesProjects,
   ProjectsController.newProject
 );
 
-router.get("/projects/:id", ProjectsController.getProject);
+router.get("/:id/projects/:idPro", ProjectsController.getProject);
 
-router.put("/projects/:id", ProjectsController.updateProject);
-
-router.delete("/projects/:id", ProjectsController.deleteProject);
+router.put("/:id/projects/:idPro", ProjectsController.updateProject);
 
 router.get("/projects/:id/notes", NotesController.getAllNotes);
 
