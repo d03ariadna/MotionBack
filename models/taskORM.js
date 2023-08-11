@@ -21,6 +21,10 @@ const TaskORM = sequelize.define("tasks", {
   status: {
     type: DataTypes.TEXT,
   },
+  idOwner: {
+    type: DataTypes.INTEGER,
+    foreignKey: true,
+  },
 });
 
 module.exports = TaskORM;

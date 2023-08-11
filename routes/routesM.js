@@ -35,15 +35,15 @@ router.get("/login", UsersController.getAllUsers);
 
 router.post("/login", UsersController.login);
 
-router.get("/tasks", TasksController.getAllTasks);
+router.get("/:id/tasks", TasksController.getAllTasks);
 
-router.post("/tasks", validationRulesTasks, TasksController.newTask);
+router.post("/:id/tasks", validationRulesTasks, TasksController.newTask);
 
-router.get("/tasks/:id", TasksController.getTask);
+router.get("/:id/tasks/:idTask", TasksController.getTask);
 
-router.put("/tasks/:id", TasksController.updateTask);
+router.put("/:id/tasks/:idTask", TasksController.updateTask);
 
-router.delete("/tasks/:id", TasksController.deleteTask);
+router.delete("/:id/tasks/:idTask", TasksController.deleteTask);
 
 router.get("/projects", ProjectsController.getAllProjects);
 
