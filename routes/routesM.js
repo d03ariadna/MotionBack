@@ -57,19 +57,19 @@ router.get("/:id/projects/:idPro", ProjectsController.getProject);
 
 router.put("/:id/projects/:idPro", ProjectsController.updateProject);
 
-router.get("/projects/:id/notes", NotesController.getAllNotes);
+router.get("/:id/projects/:idPro/notes", NotesController.getAllNotes);
 
-router.get("/projects/:id/notes/:noteid", NotesController.getNote);
+router.get("/:id/projects/:idPro/notes/:noteid", NotesController.getNote);
 
 router.post(
-  "/projects/:id/notes",
+  "/:id/projects/:idPro/notes",
   validationRulesNotes,
   NotesController.newNote
 );
 
-router.put("/projects/:id/notes/:noteid", NotesController.updateNote);
+router.put("/:id/projects/:idPro/notes/:noteid", NotesController.updateNote);
 
-router.delete("/projects/:id/notes/:noteid", NotesController.deleteNote);
+router.delete("/:id/projects/:idPro/notes/:noteid", NotesController.deleteNote);
 
 router.get("/user/:id/projects", UpController.getAllRelations);
 

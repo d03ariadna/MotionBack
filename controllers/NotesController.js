@@ -12,17 +12,16 @@ const validationRulesNotes = [
 
 class NotesController {
   static async getAllNotes(req, res) {
-    let id = req.params.id;
+    let idPro = req.params.idPro;
     let results = await NoteORM.sequelize.query(
-      "select * from notes where idProject = ?;",
+      "SELECT * FROM notes WHERE idProject = ?",
       {
-        replacements: [id],
+        replacements: [idPro],
         type: QueryTypes.SELECT,
       }
     );
 
     if (results) {
-      // res.send(results);
       res.json(results);
       console.log(res);
     }
@@ -39,7 +38,7 @@ class NotesController {
 
   static async newNote(req, res) {
     const errors = validationResult(req);
-    let newNotePI = req.params.id;
+    let newNotePI = req.params.idPro;
 
     if (!errors.isEmpty()) {
       res.send(errors.errors[0].msg);
@@ -67,7 +66,6 @@ class NotesController {
     if (!errors.isEmpty()) {
       res.send(errors.errors[0].msg);
     } else {
-      let id = req.params.id;
       let noteid = req.params.noteid;
       const newNote = req.body;
       const noteToUpdate = await NoteORM.findByPk(noteid);
@@ -77,9 +75,9 @@ class NotesController {
       });
 
       if (result) {
-        res.redirect("/projects/" + id + "/notes");
+        res.send("Note updated");
       } else {
-        res.send("Note couldn't be modified");
+        res.send("Note couldn't be updated");
       }
     }
   }

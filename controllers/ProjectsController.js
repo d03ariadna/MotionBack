@@ -31,7 +31,15 @@ class ProjectsController {
 
   static async getProject(req, res) {
     let idPro = req.params.idPro;
-    let results = await ProjectORM.findByPk(idPro);
+    let id = req.params.id;
+
+    let results = await ProjectORM.sequelize.query(
+      "SELECT * FROM projects INNER JOIN user_projects ON projects.id = user_projects.idPro WHERE idUser = ? AND idPro = ?;",
+      {
+        replacements: [id, idPro],
+        type: QueryTypes.SELECT,
+      }
+    );
 
     if (results) {
       res.json(results);
