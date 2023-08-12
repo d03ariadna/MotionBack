@@ -1,5 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const ProjectORM = require("../models/projectORM");
+const UpORM = require("../models/upORM");
+const { QueryTypes } = require("sequelize");
 
 const validationRulesProjects = [
   check("name")
@@ -12,7 +14,14 @@ const validationRulesProjects = [
 
 class ProjectsController {
   static async getAllProjects(req, res) {
-    let results = await ProjectORM.findAll();
+    let id = req.params.id;
+    let results = await ProjectORM.sequelize.query(
+      "SELECT * FROM projects INNER JOIN user_projects ON projects.id = user_projects.idPro WHERE idUser = ?;",
+      {
+        replacements: [id],
+        type: QueryTypes.SELECT,
+      }
+    );
 
     if (results) {
       res.json(results);
@@ -21,8 +30,16 @@ class ProjectsController {
   }
 
   static async getProject(req, res) {
+    let idPro = req.params.idPro;
     let id = req.params.id;
-    let results = await ProjectORM.findByPk(id);
+
+    let results = await ProjectORM.sequelize.query(
+      "SELECT * FROM projects INNER JOIN user_projects ON projects.id = user_projects.idPro WHERE idUser = ? AND idPro = ?;",
+      {
+        replacements: [id, idPro],
+        type: QueryTypes.SELECT,
+      }
+    );
 
     if (results) {
       res.json(results);
@@ -36,6 +53,7 @@ class ProjectsController {
       res.send(errors.errors[0].msg);
     } else {
       const newProject = req.body;
+      let id = req.params.id;
 
       let results = ProjectORM.create({
         name: newProject.name,
@@ -44,6 +62,14 @@ class ProjectsController {
       });
 
       (await results).save();
+
+      let relation = UpORM.create({
+        idUser: id,
+        idPro: (await results).dataValues.id,
+        type: 1,
+      });
+
+      (await relation).save();
 
       if (results) {
         res.send("Project created");
@@ -59,9 +85,9 @@ class ProjectsController {
     if (!errors.isEmpty()) {
       res.send(errors.errors[0].msg);
     } else {
-      let id = req.params.id;
+      let idPro = req.params.idPro;
       const newProject = req.body;
-      const projectToUpdate = await ProjectORM.findByPk(id);
+      const projectToUpdate = await ProjectORM.findByPk(idPro);
 
       let result = await projectToUpdate.update({
         name: newProject.name,
@@ -70,24 +96,11 @@ class ProjectsController {
       });
 
       if (result) {
-        res.redirect("/projects");
+        res.send("Project edited");
       } else {
-        res.send("Project couldn't be modified");
+        res.send("Project couldn't be edited");
       }
     }
-  }
-
-  static async deleteProject(req, res) {
-    let id = req.params.id;
-
-    let result = false;
-
-    if (id) {
-      const project = await ProjectORM.findByPk(id);
-      result = await project.destroy();
-    }
-
-    res.status(200).send("Project deleted");
   }
 }
 

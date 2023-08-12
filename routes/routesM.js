@@ -47,33 +47,31 @@ router.put("/:id/tasks/:idTask", TasksController.updateTask);
 
 router.delete("/:id/tasks/:idTask", TasksController.deleteTask);
 
-router.get("/projects", ProjectsController.getAllProjects);
+router.get("/:id/projects", ProjectsController.getAllProjects);
 
 router.post(
-  "/projects",
+  "/:id/projects",
   validationRulesProjects,
   ProjectsController.newProject
 );
 
-router.get("/projects/:id", ProjectsController.getProject);
+router.get("/:id/projects/:idPro", ProjectsController.getProject);
 
-router.put("/projects/:id", ProjectsController.updateProject);
+router.put("/:id/projects/:idPro", ProjectsController.updateProject);
 
-router.delete("/projects/:id", ProjectsController.deleteProject);
+router.get("/:id/projects/:idPro/notes", NotesController.getAllNotes);
 
-router.get("/projects/:id/notes", NotesController.getAllNotes);
-
-router.get("/projects/:id/notes/:noteid", NotesController.getNote);
+router.get("/:id/projects/:idPro/notes/:noteid", NotesController.getNote);
 
 router.post(
-  "/projects/:id/notes",
+  "/:id/projects/:idPro/notes",
   validationRulesNotes,
   NotesController.newNote
 );
 
-router.put("/projects/:id/notes/:noteid", NotesController.updateNote);
+router.put("/:id/projects/:idPro/notes/:noteid", NotesController.updateNote);
 
-router.delete("/projects/:id/notes/:noteid", NotesController.deleteNote);
+router.delete("/:id/projects/:idPro/notes/:noteid", NotesController.deleteNote);
 
 router.get("/user/:id/projects", UpController.getAllRelations);
 
