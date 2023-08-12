@@ -35,7 +35,9 @@ router.get("/register", (req, res) => {
 
 router.post("/register", validationRules, UsersController.register);
 
-router.get("/login", UsersController.getAllUsers);
+router.get("/users", UsersController.getAllUsers);
+
+router.get("/user/:email", UsersController.getUser);
 
 router.post("/login", UsersController.login);
 
@@ -43,11 +45,12 @@ router.get("/:id/tasks", TasksController.getAllTasks);
 
 router.post("/:id/tasks", validationRulesTasks, TasksController.newTask);
 
+//EXTRA
 router.get("/:id/tasks/:idTask", TasksController.getTask);
 
-router.put("/:id/tasks/:idTask", TasksController.updateTask);
+router.put("/tasks/:idTask", TasksController.updateTask);
 
-router.delete("/:id/tasks/:idTask", TasksController.deleteTask);
+router.delete("/tasks/:idTask", TasksController.deleteTask);
 
 router.get("/:id/projects", ProjectsController.getAllProjects);
 

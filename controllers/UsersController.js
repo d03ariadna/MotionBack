@@ -95,18 +95,73 @@ class UsersController {
     }
   }
 
-  static async deleteUser(req, res) {
-    let id = req.params.id;
+    static async deleteUser(req, res) {
+        let id = req.params.id;
 
-    let result = false;
+        let result = false;
 
-    if (id) {
-      const user = await UserORM.findByPk(id);
-      result = await user.destroy();
+        if (id) {
+            const user = await UserORM.findByPk(id);
+            result = await user.destroy();
+        }
     }
 
-    res.status(200).send("OK");
-  }
+    
+
+    static async getUser(req, res) {
+
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            res.send(errors.errors[0].msg);
+        }
+        else {
+
+            const email = req.params.email;
+
+            const user = await UserORM.findOne({ where: { email: email } })
+
+            if (user) {
+                res.status(200).json(user)
+            } else {
+                res.status(404).json('User not found')
+            }
+            
+            // const userToUpdate = await UserORM.findByPk(id);
+
+            // let result = await userToUpdate.update({
+            //     username: newUser.username,
+            //     password: newUser.password,
+            //     avatar: newUser.avatar
+            // });
+
+
+            // if (result) {
+            //     res.redirect('/users');
+            // }
+            // else {
+            //     res.send("User couldn't be modified");
+            // }
+        }
+
+        
+    }
+
+    static async deleteUser(req, res) {
+
+        let id = req.params.id;
+
+        let result = false;
+
+        if (id) {
+            
+            const user = await UserORM.findByPk(id);
+            result = await user.destroy();
+        }
+
+        res.status(200).send("OK");
+    }
+
 }
 
 module.exports = {
