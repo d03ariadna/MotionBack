@@ -80,7 +80,7 @@ class UsersController {
 
     
 
-    static async updateUser(req, res) {
+    static async getUser(req, res) {
 
         const errors = validationResult(req);
         
@@ -89,23 +89,31 @@ class UsersController {
         }
         else {
 
-            let id = req.params.id;
-            const newUser = req.body;
-            const userToUpdate = await UserORM.findByPk(id);
+            const email = req.params.email;
 
-            let result = await userToUpdate.update({
-                username: newUser.username,
-                password: newUser.password,
-                avatar: newUser.avatar
-            });
+            const user = await UserORM.findOne({ where: { email: email } })
 
-
-            if (result) {
-                res.redirect('/users');
+            if (user) {
+                res.status(200).json(user)
+            } else {
+                res.status(404).json('User not found')
             }
-            else {
-                res.send("User couldn't be modified");
-            }
+            
+            // const userToUpdate = await UserORM.findByPk(id);
+
+            // let result = await userToUpdate.update({
+            //     username: newUser.username,
+            //     password: newUser.password,
+            //     avatar: newUser.avatar
+            // });
+
+
+            // if (result) {
+            //     res.redirect('/users');
+            // }
+            // else {
+            //     res.send("User couldn't be modified");
+            // }
         }
 
         

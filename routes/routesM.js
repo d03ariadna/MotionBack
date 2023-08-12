@@ -31,7 +31,9 @@ router.get("/register", (req, res) => {
 
 router.post("/register", validationRules, UsersController.register);
 
-router.get("/login", UsersController.getAllUsers);
+router.get("/users", UsersController.getAllUsers);
+
+router.get("/user/:email", UsersController.getUser);
 
 router.post("/login", UsersController.login);
 
