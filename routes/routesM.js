@@ -41,11 +41,12 @@ router.get("/:id/tasks", TasksController.getAllTasks);
 
 router.post("/:id/tasks", validationRulesTasks, TasksController.newTask);
 
+//EXTRA
 router.get("/:id/tasks/:idTask", TasksController.getTask);
 
-router.put("/:id/tasks/:idTask", TasksController.updateTask);
+router.put("/tasks/:idTask", TasksController.updateTask);
 
-router.delete("/:id/tasks/:idTask", TasksController.deleteTask);
+router.delete("/tasks/:idTask", TasksController.deleteTask);
 
 router.get("/:id/projects", ProjectsController.getAllProjects);
 
