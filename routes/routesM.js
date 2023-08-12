@@ -17,6 +17,10 @@ const {
   validationRulesNotes,
   NotesController,
 } = require("../controllers/NotesController");
+const {
+  validationRulesProtas,
+  ProtasController,
+} = require("../controllers/ProtasController");
 const { UpController } = require("../controllers/UpController");
 
 /* GET home page. */
@@ -78,5 +82,19 @@ router.post("/useradmin/:id/projects", UpController.newRelationAdmin);
 router.post("/userinvited/:id/projects", UpController.newRelationInvited);
 
 router.get("/projects/:id/members", UpController.getMembers);
+
+router.get("/:id/projects/:idPro/tasks", ProtasController.getAllTasks);
+
+router.post(
+  "/:id/projects/:idPro/tasks",
+  validationRulesProtas,
+  ProtasController.newTask
+);
+
+router.get("/:id/projects/:idPro/tasks", ProtasController.getTask);
+
+router.put("/:id/projects/:idPro/tasks", ProtasController.updateTask);
+
+router.delete("/:id/projects/:idPro/tasks", ProtasController.deleteTask);
 
 module.exports = router;
