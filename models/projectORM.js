@@ -15,8 +15,11 @@ const ProjectORM = sequelize.define("projects", {
   description: {
     type: DataTypes.TEXT,
   },
-  color: {
-    type: DataTypes.TEXT,
+  startDate: {
+    type: DataTypes.DATEONLY,
+  },
+  endDate: {
+    type: DataTypes.DATEONLY,
   },
 });
 

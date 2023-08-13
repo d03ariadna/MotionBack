@@ -31,7 +31,7 @@ class ProtasController {
 
   static async getTask(req, res) {
     let idTask = req.params.idTask;
-    let results = await TaskORM.findByPk(idTask);
+    let results = await ProtaORM.findByPk(idTask);
 
     if (results) {
       res.json(results);
@@ -45,9 +45,9 @@ class ProtasController {
       res.send(errors.errors[0].msg);
     } else {
       const newTask = req.body;
-      let id = req.params.id;
-      let results = await TaskORM.sequelize.query(
-        "INSERT INTO tasks (name, description, date, status, idOwner) VALUES (?, ?, ?, ?, ?)",
+      let id = req.params.idPro;
+      let results = await ProtaORM.sequelize.query(
+        "INSERT INTO protas (name, description, date, status, idProwner) VALUES (?, ?, ?, ?, ?)",
         {
           replacements: [
             newTask.name,
@@ -76,7 +76,7 @@ class ProtasController {
     } else {
       let idTask = req.params.idTask;
       const newTask = req.body;
-      const taskToUpdate = await TaskORM.findByPk(idTask);
+      const taskToUpdate = await ProtaORM.findByPk(idTask);
 
       let result = taskToUpdate.update({
         name: newTask.name,
@@ -99,7 +99,7 @@ class ProtasController {
     let result = false;
 
     if (idTask) {
-      const task = await TaskORM.findByPk(idTask);
+      const task = await ProtaORM.findByPk(idTask);
       result = await task.destroy();
     }
 

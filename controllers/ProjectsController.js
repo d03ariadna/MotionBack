@@ -58,7 +58,8 @@ class ProjectsController {
       let results = ProjectORM.create({
         name: newProject.name,
         description: newProject.description,
-        color: newProject.color,
+        startDate: newProject.startDate,
+        endDate: newProject.endDate,
       });
 
       (await results).save();
@@ -92,7 +93,8 @@ class ProjectsController {
       let result = await projectToUpdate.update({
         name: newProject.name,
         description: newProject.description,
-        color: newProject.color,
+        startDate: newProject.startDate,
+        endDate: newProject.endDate,
       });
 
       if (result) {

@@ -45,8 +45,7 @@ router.get("/:id/tasks", TasksController.getAllTasks);
 
 router.post("/:id/tasks", validationRulesTasks, TasksController.newTask);
 
-//EXTRA
-router.get("/:id/tasks/:idTask", TasksController.getTask);
+router.get("/tasks/:idTask", TasksController.getTask);
 
 router.put("/tasks/:idTask", TasksController.updateTask);
 
@@ -62,42 +61,40 @@ router.post(
 
 router.get("/:id/projects/:idPro", ProjectsController.getProject);
 
-router.put("/:id/projects/:idPro", ProjectsController.updateProject);
+router.put("/projects/:idPro", ProjectsController.updateProject);
 
-router.get("/:id/projects/:idPro/notes", NotesController.getAllNotes);
+router.get("/:idPro/notes", NotesController.getAllNotes);
 
-router.get("/:id/projects/:idPro/notes/:noteid", NotesController.getNote);
+router.get("/notes/:noteid", NotesController.getNote);
 
-router.post(
-  "/:id/projects/:idPro/notes",
-  validationRulesNotes,
-  NotesController.newNote
-);
+router.post("/:idPro/notes", validationRulesNotes, NotesController.newNote);
 
-router.put("/:id/projects/:idPro/notes/:noteid", NotesController.updateNote);
+router.put("/notes/:noteid", NotesController.updateNote);
 
-router.delete("/:id/projects/:idPro/notes/:noteid", NotesController.deleteNote);
+router.delete("/notes/:noteid", NotesController.deleteNote);
 
+//////////////////////////////////FOR TESTING///////////////////////////////////
 router.get("/user/:id/projects", UpController.getAllRelations);
 
 router.post("/useradmin/:id/projects", UpController.newRelationAdmin);
 
 router.post("/userinvited/:id/projects", UpController.newRelationInvited);
+/////////////////////////////////////////////////////////////////////////////////
 
 router.get("/projects/:id/members", UpController.getMembers);
 
-router.get("/:id/projects/:idPro/tasks", ProtasController.getAllTasks);
+router.get("/projects/:idPro/tasks", ProtasController.getAllTasks);
 
 router.post(
-  "/:id/projects/:idPro/tasks",
+  "/projects/:idPro/tasks",
   validationRulesProtas,
   ProtasController.newTask
 );
 
-router.get("/:id/projects/:idPro/tasks", ProtasController.getTask);
+router.get("/projects/tasks/:idTask", ProtasController.getTask);
 
-router.put("/:id/projects/:idPro/tasks", ProtasController.updateTask);
+router.put("/projects/tasks/:idTask", ProtasController.updateTask);
 
-router.delete("/:id/projects/:idPro/tasks", ProtasController.deleteTask);
+router.delete("/projects/tasks/:idTask", ProtasController.deleteTask);
 
 module.exports = router;
