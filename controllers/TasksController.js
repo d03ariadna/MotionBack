@@ -14,24 +14,18 @@ const validationRulesTasks = [
 
 class TasksController {
   static async getAllTasks(req, res) {
-    let id = req.params.id;
-    let results = await TaskORM.sequelize.query(
-      "SELECT * FROM tasks WHERE idOwner = ?",
-      {
-        replacements: [id],
-        type: QueryTypes.SELECT,
-      }
-    );
+    let results = await TaskORM.findAll();
 
     if (results) {
+      // res.send(results);
       res.json(results);
       console.log(res);
     }
   }
 
   static async getTask(req, res) {
-    let idTask = req.params.idTask;
-    let results = await TaskORM.findByPk(idTask);
+    let id = req.params.id;
+    let results = await TaskORM.findByPk(id);
 
     if (results) {
       res.json(results);
@@ -45,25 +39,20 @@ class TasksController {
       res.send(errors.errors[0].msg);
     } else {
       const newTask = req.body;
-      let id = req.params.id;
-      let results = await TaskORM.sequelize.query(
-        "INSERT INTO tasks (name, description, date, status, idOwner) VALUES (?, ?, ?, ?, ?)",
-        {
-          replacements: [
-            newTask.name,
-            newTask.description,
-            newTask.date,
-            newTask.status,
-            id,
-          ],
-          type: QueryTypes.INSERT,
-        }
-      );
+
+      let results = TaskORM.create({
+        name: newTask.name,
+        description: newTask.description,
+        date: newTask.date,
+        status: newTask.status,
+      });
+
+      (await results).save();
 
       if (results) {
-        res.send("OK");
+        res.send("Task created");
       } else {
-        res.send("NOT OK");
+        res.send("Task couldn't be created");
       }
     }
   }
@@ -74,11 +63,11 @@ class TasksController {
     if (!errors.isEmpty()) {
       res.send(errors.errors[0].msg);
     } else {
-      let idTask = req.params.idTask;
+      let id = req.params.id;
       const newTask = req.body;
-      const taskToUpdate = await TaskORM.findByPk(idTask);
+      const taskToUpdate = await TaskORM.findByPk(id);
 
-      let result = taskToUpdate.update({
+      let result = await taskToUpdate.update({
         name: newTask.name,
         description: newTask.description,
         date: newTask.date,
@@ -86,7 +75,7 @@ class TasksController {
       });
 
       if (result) {
-        res.send("OK");
+        res.redirect("/tasks");
       } else {
         res.send("Task couldn't be modified");
       }
@@ -94,24 +83,25 @@ class TasksController {
   }
 
   static async deleteTask(req, res) {
-    let idTask = req.params.idTask;
+    let id = req.params.id;
 
     let result = false;
 
-    if (idTask) {
-      const task = await TaskORM.findByPk(idTask);
+    if (id) {
+      const task = await TaskORM.findByPk(id);
       result = await task.destroy();
     }
 
-    if (result) {
-      res.send("OK");
-    } else {
-      res.send("Task couldn't be deleted");
-    }
+    res.status(200).send("Task deleted");
   }
+
 }
+
+
 
 module.exports = {
   validationRulesTasks,
   TasksController,
 };
+
+

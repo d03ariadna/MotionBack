@@ -1,6 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const UserORM = require("../models/userORM");
 
+
 const validationRules = [
   check("name")
     .notEmpty()
