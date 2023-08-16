@@ -28,7 +28,10 @@ router.get("/", function (req, res, next) {
   res.json("Main Page");
 });
 
-// User Routes //
+
+
+
+//////////////////// USER ROUTES ////////////////////
 router.get("/register", (req, res) => {
   res.json("Register Page");
 });
@@ -41,6 +44,10 @@ router.get("/user/:email", UsersController.getUser);
 
 router.post("/login", UsersController.login);
 
+
+
+
+//////////////////// TASKS ROUTES ////////////////////
 router.get("/:id/tasks", TasksController.getAllTasks);
 
 router.post("/:id/tasks", validationRulesTasks, TasksController.newTask);
@@ -51,6 +58,10 @@ router.put("/tasks/:idTask", TasksController.updateTask);
 
 router.delete("/tasks/:idTask", TasksController.deleteTask);
 
+
+
+
+//////////////////// PROJECTS ROUTES ////////////////////
 router.get("/:id/projects", ProjectsController.getAllProjects);
 
 router.post(
@@ -63,6 +74,30 @@ router.get("/:id/projects/:idPro", ProjectsController.getProject);
 
 router.put("/projects/:idPro", ProjectsController.updateProject);
 
+
+
+
+//////////////////// PROJECT TASKS ROUTES ////////////////////
+//Get Tasks by USER
+router.get("/projects/tasks/:idUser", ProtasController.getUserTasks);
+
+//Get Tasks by PROJECT
+router.get("/projects/:idPro/tasks", ProtasController.getAllTasks);
+
+//Create a Project Task with ProjectID
+router.post("/projects/tasks/:idPro", validationRulesProtas, ProtasController.newTask);
+
+router.get("/projects/tasks/:idTask", ProtasController.getTask);
+
+//Update a Project Task with TaskID
+router.put("/projects/tasks/:idTask", ProtasController.updateTask);
+
+router.delete("/projects/tasks/:idTask", ProtasController.deleteTask);
+
+
+
+
+//////////////////// NOTES ROUTES ////////////////////
 router.get("/:idPro/notes", NotesController.getAllNotes);
 
 router.get("/notes/:noteid", NotesController.getNote);
@@ -73,6 +108,12 @@ router.put("/notes/:noteid", NotesController.updateNote);
 
 router.delete("/notes/:noteid", NotesController.deleteNote);
 
+
+
+//////////////////// MEMBERS ROUTES ////////////////////
+router.get("/projects/:id/members", UpController.getMembers);
+
+
 //////////////////////////////////FOR TESTING///////////////////////////////////
 router.get("/user/:id/projects", UpController.getAllRelations);
 
@@ -81,20 +122,6 @@ router.post("/useradmin/:id/projects", UpController.newRelationAdmin);
 router.post("/userinvited/:id/projects", UpController.newRelationInvited);
 /////////////////////////////////////////////////////////////////////////////////
 
-router.get("/projects/:id/members", UpController.getMembers);
 
-router.get("/projects/:idPro/tasks", ProtasController.getAllTasks);
-
-router.post(
-  "/projects/:idPro/tasks",
-  validationRulesProtas,
-  ProtasController.newTask
-);
-
-router.get("/projects/tasks/:idTask", ProtasController.getTask);
-
-router.put("/projects/tasks/:idTask", ProtasController.updateTask);
-
-router.delete("/projects/tasks/:idTask", ProtasController.deleteTask);
 
 module.exports = router;

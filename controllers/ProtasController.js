@@ -13,6 +13,24 @@ const validationRulesProtas = [
 ];
 
 class ProtasController {
+
+  //Get Tasks by User
+  static async getUserTasks(req, res) {
+    let id = req.params.idUser;
+    let results = await ProtaORM.sequelize.query(
+      "SELECT pt.id, pt.name, pt.description, pt.date, pt.status, pt.idProwner from protas pt JOIN projects p ON pt.idProwner=p.id JOIN user_projects up ON up.idPro=p.id where up.idUser = ?;",
+      {
+        replacements: [id],
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    if (results) {
+      res.json(results);
+    }
+  }
+
+  //Get Tasks by Project
   static async getAllTasks(req, res) {
     let id = req.params.idPro;
     let results = await ProtaORM.sequelize.query(
@@ -83,6 +101,7 @@ class ProtasController {
         description: newTask.description,
         date: newTask.date,
         status: newTask.status,
+        idProwner: newTask.idProwner
       });
 
       if (result) {
