@@ -23,7 +23,7 @@ class UpController {
     let id = req.params.id;
 
     let results = await UpORM.sequelize.query(
-      "select * from user_projects where idPro = ?;",
+      "SELECT us.id, us.name, us.email, up.type FROM users us INNER JOIN user_projects up ON up.idUser=us.id WHERE idPro= ?;",
       {
         replacements: [id],
         type: QueryTypes.SELECT,
