@@ -7,6 +7,6 @@ const data = {
   define: {
     timestamps: false,
   },
-}
+};
 
 module.exports = data;
