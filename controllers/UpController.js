@@ -1,4 +1,6 @@
 const UpORM = require("../models/upORM");
+const userORM = require("../models/userORM");
+
 const { QueryTypes } = require("sequelize");
 
 class UpController {
@@ -15,7 +17,6 @@ class UpController {
 
     if (results) {
       res.json(results);
-      console.log(res);
     }
   }
 
@@ -32,7 +33,6 @@ class UpController {
 
     if (results) {
       res.json(results);
-      console.log(res);
     }
   }
 
@@ -56,23 +56,30 @@ class UpController {
     }
   }
   static async newRelationInvited(req, res) {
-    let id = req.params.id;
+    let idPro = req.params.id;
+    const email = req.body.email;
 
-    const newRelation = req.body;
-
-    let results = UpORM.create({
-      idUser: id,
-      idPro: newRelation.idPro,
-      type: 2,
-    });
-
-    (await results).save();
-
-    if (results) {
-      res.send("Relation created");
+    const user = await userORM.findOne({ where: { email: email } });
+    let results;
+    if (!user) {
+      res.status(404).send("Incorrect email. Please try again");
     } else {
-      res.send("Relation couldn't be created");
+      console.log(user);
+      let id = user.id;
+      results = UpORM.create({
+        idUser: id,
+        idPro: idPro,
+        type: 2,
+      });
+
+      (await results).save();
+      if (results) {
+        res.status(200).send("Relation created");
+      } else {
+        res.status(500).send("Relation couldn't be created");
+      }
     }
+
   }
 }
 

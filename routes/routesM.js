@@ -113,8 +113,6 @@ router.delete("/notes/:noteid", NotesController.deleteNote);
 //////////////////// MEMBERS ROUTES ////////////////////
 router.get("/projects/:id/members", UpController.getMembers);
 
-
-//////////////////////////////////FOR TESTING///////////////////////////////////
 router.get("/user/:id/projects", UpController.getAllRelations);
 
 router.post("/useradmin/:id/projects", UpController.newRelationAdmin);
