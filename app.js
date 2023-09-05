@@ -1,6 +1,5 @@
-const env = require("./config")();
-
-process.env.PORT = env.port;
+const env = require("dotenv");
+env.config();
 
 const session = require("express-session");
 const passport = require("passport");
